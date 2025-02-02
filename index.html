@@ -403,8 +403,8 @@
 
             <div class="col-md-12 text-center">
               <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your message has been sent. Thank you!</div>
+              <div class="error-message" style="display:none; color: red;"></div>
+              <div class="sent-message" style="display:none; color: green;">Your message has been sent. Thank you!</div>
 
               <button type="submit">Send Message</button>
             </div>
@@ -418,6 +418,39 @@
   </div>
 
 </section><!-- /Contact Section -->
+
+<script>
+  const form = document.querySelector('.php-email-form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok) {
+        // Show success message
+        document.querySelector('.sent-message').style.display = 'block';
+        document.querySelector('.error-message').style.display = 'none';
+        form.reset();
+      } else {
+        // Show error message
+        document.querySelector('.error-message').textContent = 'Something went wrong. Please try again.';
+        document.querySelector('.error-message').style.display = 'block';
+        document.querySelector('.sent-message').style.display = 'none';
+      }
+    })
+    .catch(error => {
+      document.querySelector('.error-message').textContent = 'An error occurred. Please try again.';
+      document.querySelector('.error-message').style.display = 'block';
+      document.querySelector('.sent-message').style.display = 'none';
+    });
+  });
+</script>
+
 
 
   </main>
