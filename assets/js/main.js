@@ -223,6 +223,27 @@
       }
     })
   }
+  
+  document.addEventListener("DOMContentLoaded", function() {
+  // Initialize Isotope
+  let iso = new Isotope('.isotope-container', {
+    itemSelector: '.isotope-item',
+    layoutMode: 'masonry'
+  });
+  // Filter items on click
+  document.querySelectorAll('.portfolio-filters li').forEach(filter => {
+    filter.addEventListener('click', function() {
+      document.querySelector('.portfolio-filters .filter-active').classList.remove('filter-active');
+      this.classList.add('filter-active');
+      let filterValue = this.getAttribute('data-filter');
+      iso.arrange({ filter: filterValue });
+    });
+  });
+
+  // Initialize Glightbox
+  const lightbox = GLightbox({ selector: '.glightbox' });
+});
+
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
